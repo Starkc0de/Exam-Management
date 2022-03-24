@@ -99,15 +99,7 @@
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password1" class="form-control"
-                                                id="yourPassword" required />
-                                                {% for error in form1.password.errors %}
-                                                <p class="text-danger">{{ error|escape }}</p>
-                                                {% endfor %}
-                                        </div>
-                                        <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Conform Password</label>
-                                            <input type="password" name="password2" class="form-control"
+                                            <input type="password" name="password" class="form-control"
                                                 id="yourPassword" required />
                                                 {% for error in form1.password.errors %}
                                                 <p class="text-danger">{{ error|escape }}</p>

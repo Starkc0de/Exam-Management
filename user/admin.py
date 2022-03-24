@@ -1,12 +1,11 @@
 from django.contrib import admin
-from .models import RagisterUser
-from django.contrib.admin.options import ModelAdmin
+from user.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
+# Now register the new UserModelAdmin...
 
-# Register your models here.
+class UserModelAdmin(BaseUserAdmin):
+    list_display = ('id', 'email', 'name', 'mobile_number', 'address', 'terms_conditions', 'is_admin')
+    
+admin.site.register(User,UserModelAdmin)
 
-
-class RagisterAdmin(ModelAdmin):
-    list_display = ["user", "mobile_number", "roll", "address", "term_condition"]
-
-admin.site.register(RagisterUser,RagisterAdmin)
