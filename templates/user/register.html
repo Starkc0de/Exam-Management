@@ -66,8 +66,8 @@
                                     <form method="POST" class="row g-3" action="#" id="post-form" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="col-6">
-                                            <label for="yourName" class="form-label">Your Name</label>
-                                            <input type="text" name="username" class="form-control" id="yourName"
+                                            <label for="yourName" class="form-label">Name</label>
+                                            <input type="text" name="name" class="form-control" id="yourName"
                                                 required />
                                                 {% for error in form1.username.errors %}
                                                 <p class="text-danger">{{ error|escape }}</p>
@@ -75,25 +75,24 @@
                                         </div>
 
                                         <div class="col-6">
-                                            <label for="yourEmail" class="form-label">Your Email Address</label>
+                                            <label for="yourEmail" class="form-label">Email Address</label>
                                             <input type="email" name="email" class="form-control" id="yourEmail"
                                                 required />
                                                 {% for error in form1.email.errors %}
                                                 <p class="text-danger">{{ error|escape }}</p>
                                                 {% endfor %}
                                         </div>
-
                                         <div class="col-6">
                                             <label for="role" class="form-label">Role</label>
-                                            <select class="form-select" name="roll">
-                                                <option value="SETTER">SETTER</option>
-                                                <option value="HOD">HOD</option>
-                                                <option value="HOI">HOI</option>
+                                            <select class="form-select" name="role" required>
+                                                {% for data in roles %}
+                                                <option value="{{data.id}}">{{data.name}}</option>
+                                                {% endfor  %}                                             
                                             </select>
                                         </div>
                                         <div class="col-6">
                                             <label for="mobilenumber" class="form-label">Mobile Number</label>
-                                            <input type="text" name="mobile_number" class="form-control"
+                                            <input type="number" name="mobile_number" class="form-control"
                                                 id="mobilenumber" required />
                                         </div>
 
@@ -105,6 +104,7 @@
                                                 <p class="text-danger">{{ error|escape }}</p>
                                                 {% endfor %}
                                         </div>
+                                    
                                         <div class="col-12">
                                             <label for="address" class="form-label">Address</label>
                                             <textarea class="form-control" name="address" required></textarea>
@@ -112,7 +112,7 @@
 
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="term_condition" type="checkbox" value="terms and conditions"
+                                                <input class="form-check-input" name="is_terms_conditions" type="checkbox" value="terms and conditions"
                                                     id="acceptTerms" required />
                                                 <label class="form-check-label" for="acceptTerms">I agree and accept the
                                                     <a href="#">terms and conditions</a></label>
@@ -126,7 +126,7 @@
                                         <div class="col-12">
                                             <p class="small mb-0">
                                                 Already have an account?
-                                                <a href="{% url 'User:login' %}">Log in</a>
+                                                <a href="{% url 'user_info:login' %}">Log in</a>
                                             </p>
                                         </div>
                                     </form>

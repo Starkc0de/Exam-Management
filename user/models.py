@@ -1,77 +1,66 @@
+from tkinter import CASCADE
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-
-
-class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
-        """
-        Creates and saves a User with the given email, name and password.
-        """
-        if not email:
-            raise ValueError('User must have an email address')
-
-        user = self.model(
-            email=self.normalize_email(email),
-            name=name,
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, name, password=None):
-        """
-        Creates and saves a superuser with the given email, name and password.
-        """
-        user = self.create_user(
-            email,
-            password=password,
-            name=name,
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-
-        return user
-
+from django.contrib.auth.models import (
+    AbstractBaseUser, BaseUserManager, PermissionsMixin)
+from utils.BaseModel import DateMixin 
+# Create your models here.
 
 class Role(models.Model):
     name=models.CharField(max_length=15)
+    slug = models.SlugField(max_length=70, verbose_name="slug")
 
     class Meta:
         verbose_name = 'Role'
         verbose_name_plural = 'Role'
 
-    def __str__(self):
-        return str(self.name)
+    def __str__(self) -> str:
+        return self.name
 
-class User(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name='Email',
-        max_length=255,
-        unique=True,
-    )
-    name = models.CharField(max_length=200)
-    role= models.ForeignKey(Role, on_delete=models.CASCADE)
-        
-    mobile_number = models.BigIntegerField(unique=True,null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
-    terms_conditions = models.BooleanField(default=False) 
+
+class UserManager(BaseUserManager):
+
+    def create_user(self, email, password=None, **extra_fields):
+        if email is None:
+            raise TypeError('Users should have a Email')
+        if password is None:
+            raise TypeError('Password should not be none')
+       
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        if email is None:
+            raise TypeError('Users should have a Email')
+        if password is None:
+            raise TypeError('Password should not be none')
+
+        user = self.create_user(email, password, **extra_fields)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        return user
+
+
+class User(AbstractBaseUser, PermissionsMixin,DateMixin):
+    
+    fullname = models.CharField(max_length=255,null=True, blank=True)  # User Fullname
+    email = models.EmailField(max_length=255, unique=True, db_index=True)
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    is_staff = models.BooleanField(default=False)
+    role= models.ForeignKey(Role,related_name='role',on_delete=models.CASCADE,null=True, blank=True)
+        
+    mobile_no = models.BigIntegerField(unique=True,null=True, blank=True)  # User contact no.
+    otp = models.IntegerField(null=True, blank=True)   # email verification otp
+    address = models.TextField(null=True, blank=True)
+    is_terms_conditions = models.BooleanField(default=False) # Accepted terms and conditions or not
+    
+    USERNAME_FIELD = 'email'
 
     objects = UserManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'mobile_number']
 
     def __str__(self):
         return self.email
 
-
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return self.is_admin        
 
