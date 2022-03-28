@@ -27,8 +27,8 @@ class LoginView(generic.TemplateView):
                 login(request, user)
                 messages.info(
                     request, f"You are now logged in as {request.user}.")  
-                if request.user.is_authenticated:                       
-                    return render(request, "dashboard.html" )
+                if request.user.is_authenticated:
+                    return HttpResponseRedirect(reverse('Dashboard:dashboard'))                    
             else:
                 messages.error(request, "Invalid username or password.")
         else:

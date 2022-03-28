@@ -1,4 +1,3 @@
-import imp
 from django.shortcuts import render
 from django.views import generic
 from django.contrib import messages

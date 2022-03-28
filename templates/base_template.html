@@ -24,7 +24,8 @@
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
     <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/css/intlTelInput.css" rel="stylesheet" media="screen">
     <link href="{% static 'vendor/simple-datatables/style.css' %}" rel="stylesheet" />
 
     <!-- Template Main CSS File -->
@@ -241,20 +242,56 @@
     <!-------------------------------------end header------------------------------------------>
     {% block content %}
     {% endblock %}
-  
+
     <!-------------------------------------start footer------------------------------------------>
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
+    <script src="{% static 'js/main.js' %}"></script>
 
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Template Main JS File -->
-    <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+ <!-- *******************************Delete Script***************************  -->
+ <Script> {
+    $(".delete").click(function () {
+        var delete_value = $(this).data("id");
+        alert(delete_value)
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete !",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: 'btn-danger',
+            confirmButtonText: 'Yes, delete it!',
+            closeOnConfirm: false,
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var token = '{{csrf_token}}';
+                    $.ajax({
+                        headers: { "X-CSRFToken": token },
+                        url: "/My-upload/delete-data/" + delete_value,
+                        type: "POST",
+                        success: function () {
+                            swal("Done!", "It was succesfully deleted!", "success");
+                            location.reload();
+                        }
+                    });
+                }
+                else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            })
+    });
+};
+</Script>
+
 </body>
 
 </html>

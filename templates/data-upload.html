@@ -14,35 +14,50 @@
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section dashboard">
         <div class="card">
             <div class="card-body p-5">
-                <form>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label>Course</label>
-                            <input class="form-control" type="text" />
+                            <select class="form-select" aria-label="Default select example">
+                                {% for data in cousres %}
+                                <option value="{{data.id}}" name="course" selected>{{data.course_name}}</option>
+                                {% endfor  %}
+                              </select>
                         </div>
                         <div class="col-md-6">
                             <label>Semester</label>
-                            <input class="form-control" type="text" />
+                            <select class="form-select" aria-label="Default select example">
+                                {% for data in semseters %}
+                                <option value="{{data.id}}" name="semester" selected>{{data.semester_name}}</option>
+                                {% endfor  %}
+                              </select>
                         </div>
                         <div class="col-md-6">
                             <label>subject</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" name="subject" type="text" />
                         </div>
                         <div class="col-md-6">
                             <label>Subjectcode</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" name="subject_code" type="text" />
                         </div>
-                        <div class="col-md-6">
-                            <label>Subjectcode</label>
-                            <input class="form-control" type="text" />
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Upload file</label>
-                            <input class="form-control" type="file" />
+                            <input class="form-control" name="paper" type="file" />
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary mx-auto">Submit</button>
                         </div>
                     </div>
                 </form>
