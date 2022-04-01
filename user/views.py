@@ -1,6 +1,6 @@
 from django.urls import reverse
 import random as r
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.contrib import messages
@@ -26,7 +26,7 @@ class LoginView(generic.TemplateView):
             if user is not None:
                 login(request, user)
                 messages.info(
-                    request, f"You are now logged in as {request.user}.")  
+                    request, f"You are now logged in as {user.fullname}.")  
                 if request.user.is_authenticated:
                     return HttpResponseRedirect(reverse('Dashboard:dashboard'))                    
             else:
@@ -150,6 +150,6 @@ class NewPasswordView(generic.TemplateView):
 
 @login_required
 def LogoutView(request):
-        logout(request)
-        messages.info(request, "You have successfully logged out.")
-        return render(request, "user/login.html" )
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return HttpResponseRedirect(reverse('user_info:login'))

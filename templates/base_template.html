@@ -25,7 +25,8 @@
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
     <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/css/intlTelInput.css" rel="stylesheet" media="screen">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/css/intlTelInput.css" rel="stylesheet"
+        media="screen">
     <link href="{% static 'vendor/simple-datatables/style.css' %}" rel="stylesheet" />
 
     <!-- Template Main CSS File -->
@@ -60,66 +61,21 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span> </a><!-- End Notification Icon -->
+
+                    {{'footer_services'|count_notification}}
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
-                            You have 4 new notifications
+                            You have {{ count_data }} new notifications
                             <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
 
-                        <li class="notification-item">
-                            <i class="bi bi-exclamation-circle text-warning"></i>
-                            <div>
-                                <h4>Lorem Ipsum</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>30 min. ago</p>
-                            </div>
-                        </li>
+                        {{'footer_services'|get_notification}}
 
                         <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-x-circle text-danger"></i>
-                            <div>
-                                <h4>Atque rerum nesciunt</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>1 hr. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-check-circle text-success"></i>
-                            <div>
-                                <h4>Sit rerum fuga</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>2 hrs. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <div>
-                                <h4>Dicta reprehenderit</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>4 hrs. ago</p>
-                            </div>
-                        </li>
 
                         <li>
                             <hr class="dropdown-divider" />
@@ -168,7 +124,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'user_info:logout' %}">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
@@ -195,15 +151,16 @@
             <!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'Data-Upload:DataUpload' %}">
+                <a class="nav-link collapsed" href="{% url 'Data-Upload:dataupload' %}">
                     <i class="bi bi-cloud-upload"></i>
                     <span>Data Upload</span>
                 </a>
             </li>
             <!-- End Profile Page Nav -->
-
+            {% if request.user.is_authenticated %}
+            {% if request.user.role == "SETTER": %}
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'My-Upload:DataUpload' %}">
+                <a class="nav-link collapsed" href="{% url 'My-Upload:myupload' %}">
                     <i class="bi bi-cloud-upload"></i>
                     <span>My uploads</span>
                 </a>
@@ -211,11 +168,12 @@
             <!-- End F.A.Q Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'Rejected-Upload:RejectedUpload' %}">
+                <a class="nav-link collapsed" href="{% url 'Rejected-Upload:rejectedupload' %}">
                     <i class="bi bi-upload"></i>
                     <span>Rejected uploads</span>
                 </a>
             </li>
+            {% elif request.user.role == "HOD" %} 
             <!-- End Contact Page Nav -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'View-Paper:paper' %}">
@@ -229,7 +187,7 @@
                     <span>Send Notification</span>
                 </a>
             </li>
-
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'My-Account:myaccount' %}">
                     <i class="bi bi-person"></i>
@@ -252,46 +210,65 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Template Main JS File -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
- <!-- *******************************Delete Script***************************  -->
- <Script> {
-    $(".delete").click(function () {
-        var delete_value = $(this).data("id");
-        alert(delete_value)
-        swal({
-            title: "Are you sure?",
-            text: "You want to delete !",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: 'btn-danger',
-            confirmButtonText: 'Yes, delete it!',
-            closeOnConfirm: false,
-        },
-            function (isConfirm) {
-                if (isConfirm) {
-                    var token = '{{csrf_token}}';
-                    $.ajax({
-                        headers: { "X-CSRFToken": token },
-                        url: "/My-upload/delete-data/" + delete_value,
-                        type: "POST",
-                        success: function () {
-                            swal("Done!", "It was succesfully deleted!", "success");
-                            location.reload();
-                        }
-                    });
-                }
-                else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");
-                }
-            })
-    });
-};
-</Script>
-
+    <!-- *******************************Delete Script***************************  -->
+    <Script>
+            $(document).ready(function () {
+                $(".delete").click(function () {
+                    var delete_value = $(this).data("id");
+                    swal({
+                        title: "Are you sure?",
+                        text: "You want to delete !",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: 'btn-danger',
+                        confirmButtonText: 'Yes, delete it!',
+                        closeOnConfirm: false,
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                var token = '{{csrf_token}}';
+                                $.ajax({
+                                    headers: { "X-CSRFToken": token },
+                                    url: "/my-upload/delete-data/" + delete_value,
+                                    type: "POST",
+                                    success: function () {
+                                        swal("Done!", "It was succesfully deleted!", "success");
+                                        location.reload();
+                                    }
+                                });
+                            }
+                            else {
+                                swal("Cancelled", "Your imaginary file is safe :)", "error");
+                            }
+                        })
+                });
+            });
+    </Script>
+    <script>
+        $(document).on("click", ".edit_profile", function () {
+          $('.page-loader').show();
+          var id = $(this).data("id");
+    
+          $.ajax({
+            method: "GET",
+            url: "my-account/edit-user/" + id,
+            dataType: "html",
+            success: function (data) {
+              $('.page-loader').hide();
+              $(".profile-edit").html(data);
+    
+            }
+          });
+        });
+      </script>
 </body>
 
 </html>

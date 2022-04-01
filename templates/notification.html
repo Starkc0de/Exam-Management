@@ -1,0 +1,16 @@
+<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+  <i class="bi bi-bell"></i>
+  <span class="badge bg-primary badge-number">{{count_data}}</span>
+</a>
+
+{% for data in get_data %}
+<li class="notification-item">
+  <i class="bi bi-exclamation-circle text-warning"></i>
+  <div>
+    <h4>{{data.title}}</h4>
+    <p>{{data.message}}</p>
+    <p>{{data.send_date}}</p>
+  </div>
+</li>
+{% endfor %}
+

@@ -5,13 +5,20 @@
         <h1>My profile</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
 
                 <li class="breadcrumb-item active">Profile</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section profile">
         <div class="row">
@@ -37,7 +44,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
+                                <button class="nav-link edit_profile" data-bs-toggle="tab" data-bs-target="#profile-edit">
                                     Edit Profile
                                 </button>
                             </li>
@@ -74,7 +81,7 @@
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <!-- Profile Edit Form -->
-                                <form method="POST">
+                                <form method="POST" action="my-account/edit-user/{{instance.id}}">
                                     {% csrf_token %}
                                     <div class="row mb-3">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
@@ -88,21 +95,21 @@
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="fullName" type="text" class="form-control" id="fullName"
-                                                value="{{userprofile.fullname}}" />
+                                                value="{{instance.fullname}}" />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="Job" class="col-md-4 col-lg-3 col-form-label">Role</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="job" type="text" class="form-control" id="Job"
-                                                value="{{userprofile.role}}" />
+                                            <input name="role" type="text" class="form-control" id="role"
+                                                value="{{instance.role}}" />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="address" type="text" class="form-control" id="Address"
-                                                value="{{userprofile.address}}" />
+                                                value="{{instance.address}}" />
                                         </div>
                                     </div>
 
@@ -110,7 +117,7 @@
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="phone" type="text" class="form-control" id="Phone"
-                                                value="{{userprofile.mobile_no}}" />
+                                                value="{{instance.mobile_no}}" />
                                         </div>
                                     </div>
 
@@ -118,7 +125,7 @@
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="email" type="email" class="form-control" id="Email"
-                                                value="{{userprofile.email}}" />
+                                                value="{{instance.email}}" />
                                         </div>
                                     </div>
                                     <div class="text-center">

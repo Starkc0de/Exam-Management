@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
 
-    path('', views.RejectedUploadView.as_view(), name="RejectedUpload")
+    path('', views.RejectedUploadView.as_view(), name="rejectedupload")
 
 ]

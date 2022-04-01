@@ -8,26 +8,34 @@
         <h1>Feedback</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
                 <li class="breadcrumb-item active">Feedback</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section dashboard">
         <div class="card">
             <div class="card-body p-5">
-                <form>
+                <form method="POST">
+                    {% csrf_token %}
                     <div class="text-center">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <input class="form-check-input" value="Approved" type="radio" name="status" id="Approved">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Approved
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                            <input class="form-check-input" value="Rejected" type="radio" name="status" id="Rejected"
                                 checked>
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Rejected
@@ -38,13 +46,13 @@
                     <div class="py-2 text-center">
                         <h1 class="py-3 text-primary">Return again for feedback</h1>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" value="Yes" name="return_feedback" id="Yes">
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Yes
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+                            <input class="form-check-input" type="radio"value="No" name="return_feedback" id="No"
                                 checked>
                             <label class="form-check-label" for="flexRadioDefault3">
                                 No
@@ -55,10 +63,10 @@
 
                     <div class="pt-3 mb-3">
                         <label>Comment</label>
-                        <textarea class="form-control h-150"></textarea>
+                        <textarea class="form-control h-150" name="comment" ></textarea>
                     </div>
                     <div class="text-end">
-                        <button class="btn btn-primary">send</button>
+                        <button type="submit" class="btn btn-primary">send</button>
                     </div>
                 </form>
             </div>

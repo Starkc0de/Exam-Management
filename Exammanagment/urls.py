@@ -22,15 +22,15 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('user.urls', 'user'), namespace='user_info')),
-    path('Dashboard', include(('dashboard.urls', 'Dashboard'), namespace='Dashboard')),
-    path('Data-Upload', include(('data_upload.urls', 'Data-Upload'), namespace='Data-Upload')),
-    path('My-upload/', include(('my_upload.urls', 'My-Upload'), namespace='My-Upload')),
-    path('Rejected-Upload', include(('rejected_upload.urls', 'Rejected-Upload'), namespace='Rejected-Upload')),
-    path('View-Paper', include(('view_paper.urls', 'View-Paper'), namespace='View-Paper')),
-    path('Send-Notification', include(('send_notification.urls', 'Send-Notification'), namespace='Send-Notification')),
-    path('My-Account', include(('my_account.urls', 'My-Account'), namespace='My-Account')),
-    path('About-Us', include(('about_us.urls', 'About-Us'), namespace='About-Us')),
-    path('Contact-Us', include(('contact_us.urls', 'Contact-Us'), namespace='Contact-Us')),
+    path('dashboard', include(('dashboard.urls', 'Dashboard'), namespace='Dashboard')),
+    path('data-upload', include(('data_upload.urls', 'Data-Upload'), namespace='Data-Upload')),
+    path('my-upload', include(('my_upload.urls', 'My-Upload'), namespace='My-Upload')),
+    path('rejected-upload', include(('rejected_upload.urls', 'Rejected-Upload'), namespace='Rejected-Upload')),
+    path('view-paper', include(('view_paper.urls', 'View-Paper'), namespace='View-Paper')),
+    path('send-notification', include(('send_notification.urls', 'Send-Notification'), namespace='Send-Notification')),
+    path('my-account', include(('my_account.urls', 'My-Account'), namespace='My-Account')),
+    path('about-us', include(('about_us.urls', 'About-Us'), namespace='About-Us')),
+    path('contact-us', include(('contact_us.urls', 'Contact-Us'), namespace='Contact-Us')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

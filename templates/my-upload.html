@@ -6,12 +6,19 @@
         <h1>My Upload</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
                 <li class="breadcrumb-item active">My Upload</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section dashboard">
         <div class="card">
@@ -38,7 +45,7 @@
                             <td><a href="{{data.paper.url}}"> {{data.paper}}</a></td>
                             <td><span data-="" class="badge bg-success">Approved</span></td>
                             <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'Data-Upload:data-update' data.id %}" class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i class="bi bi-pencil"></i></a>
                                 <a href="javascript:void(0)"  class="d-inline-block btn btn-danger delete" data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>
                             </td>
                         </tr>

@@ -7,12 +7,19 @@
         <h1>Rejected Uploads</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
                 <li class="breadcrumb-item active">Rejected Uploads</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section dashboard">
         <div class="card">
@@ -33,65 +40,19 @@
                     <tbody>
                         <tr>
 
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td><a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-
-                        </tr>
-                        <tr>
-
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td><a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td><a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-
-                        </tr>
-                        <tr>
-
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td><a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td><a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
+                            {% for data in dataupload %}
+                            <tr>
+                                <td>{{data.course}}</td>
+                                <td>{{data.semester}}</td>
+                                <td>{{data.subject}}</td>
+                                <td>{{data.subject_code}}</td>
+                                <td><span data-="" class="badge bg-danger">Rejected</span></td>
+                                <td>
+                                    <a href="{% url 'Data-Upload:data-update' data.id %}" class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i class="bi bi-pencil"></i></a>
+                                    <a href="javascript:void(0)"  class="d-inline-block btn btn-danger delete" data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
 
                         </tr>
 

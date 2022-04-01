@@ -6,12 +6,19 @@
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
     <section class="section dashboard">
         <div class="row">
             <!-- Left side columns -->
@@ -26,7 +33,7 @@
                                 <h5 class="card-title">Assign courses</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="ps-3">
-                                        <h6>100</h6>
+                                        <h6>{{ course }}</h6>
                                         <span class="text-success small pt-1 fw-bold">Total </span> <span class="text-muted small pt-2 ps-1">assign courses</span>
                                     </div>
                                 </div>
@@ -39,7 +46,7 @@
                                 <h5 class="card-title">Assigned Sem</h5>
                                 <div class="d-flex align-items-center">
                                     <div class="ps-3">
-                                        <h6>100</h6>
+                                        <h6>{{ semester }}</h6>
                                         <span class="text-success small pt-1 fw-bold">Total </span> <span class="text-muted small pt-2 ps-1">Assigned Sem</span>
                                     </div>
                                 </div>
@@ -53,7 +60,7 @@
                                 <h5 class="card-title">Uploads </h5>
                                 <div class="d-flex align-items-center">
                                     <div class="ps-3">
-                                        <h6>145</h6>
+                                        <h6>{{ total_upload }}</h6>
                                         <span class="text-success small pt-1 fw-bold">Total</span> <span class="text-muted small pt-2 ps-1">Uploads</span>
                                     </div>
                                 </div>
@@ -92,48 +99,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for data in dataupload %}
                                         <tr>
-                                            <td>MCA</td>
-                                            <td>1</td>
-                                            <td>Maths</td>
-                                            <td>24</td>
+                                            <td>{{data.course}}</td>
+                                            <td>{{data.semester}}</td>
+                                            <td>{{data.subject}}</td>
+                                            <td>{{data.subject_code}}</td>
                                             <td><span class="badge bg-success">Approved</span></td>
                                         </tr>
-                                        <tr>
-                                            <td>MCA</td>
-                                            <td>1</td>
-                                            <td>Maths</td>
-                                            <td>24</td>
-                                            <td><span class="badge bg-warning">waiting</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MCA</td>
-                                            <td>1</td>
-                                            <td>Maths</td>
-                                            <td>24</td>
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MCA</td>
-                                            <td>1</td>
-                                            <td>Maths</td>
-                                            <td>24</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MCA</td>
-                                            <td>1</td>
-                                            <td>Maths</td>
-                                            <td>24</td>
-                                            <td><span class="badge bg-warning">waiting</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MCA</td>
-                                            <td>1</td>
-                                            <td>Maths</td>
-                                            <td>24</td>
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                                 <div class="text-end"> <a href="#" class="btn btn-primary">View All</a></div>

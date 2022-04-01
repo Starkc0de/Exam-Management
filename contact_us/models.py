@@ -12,3 +12,13 @@ class ContactUs(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Contact(models.Model):
+    address = models.CharField(max_length=225, blank=True, null=True)
+    call_us = models.CharField(max_length=225, blank=True, null=True)
+    email_us = models.EmailField(blank=True, null=True)
+    open_hour = models.CharField(max_length=225, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.address)        

@@ -9,28 +9,36 @@
         <h1>Send notification</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
                 <li class="breadcrumb-item active">Send notification</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section dashboard">
         <div class="card">
             <div class="card-body py-3">
-                <form>
+                <form method="POST">
+                    {% csrf_token %}
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="mb-2">Title</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" name="title" type="text" />
                         </div>
                         <div class="col-12">
                             <label class="mb-2">Message</label>
-                            <textarea class="form-control h-150"></textarea>
+                            <textarea class="form-control h-150" name="message"></textarea>
                         </div>
                         <div class="col-12 text-end">
-                            <button class="btn btn-primary">Send</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
                         </div>
                     </div>
 
