@@ -43,7 +43,11 @@
                             <td>{{data.subject}}</td>
                             <td>{{data.subject_code}}</td>
                             <td><a href="{{data.paper.url}}"> {{data.paper}}</a></td>
-                            <td><span data-="" class="badge bg-success">Approved</span></td>
+                            {% if data.status == "Approved" %}
+                            <td><span data-="" class="badge bg-success">{{data.status}}</span></td>
+                            {% else %}
+                            <td><span data-="" class="badge bg-danger">{{data.status}}</span></td>
+                            {% endif %}
                             <td>
                                 <a href="{% url 'Data-Upload:data-update' data.id %}" class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i class="bi bi-pencil"></i></a>
                                 <a href="javascript:void(0)"  class="d-inline-block btn btn-danger delete" data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>

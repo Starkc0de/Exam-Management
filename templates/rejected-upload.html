@@ -41,17 +41,19 @@
                         <tr>
 
                             {% for data in dataupload %}
+                            {% if data.status == "Rejected" %}
                             <tr>
                                 <td>{{data.course}}</td>
                                 <td>{{data.semester}}</td>
                                 <td>{{data.subject}}</td>
                                 <td>{{data.subject_code}}</td>
-                                <td><span data-="" class="badge bg-danger">Rejected</span></td>
+                                <td><span data-="" class="badge bg-danger">{{data.status}}</span></td>
                                 <td>
                                     <a href="{% url 'Data-Upload:data-update' data.id %}" class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i class="bi bi-pencil"></i></a>
                                     <a href="javascript:void(0)"  class="d-inline-block btn btn-danger delete" data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>
                                 </td>
                             </tr>
+                            {% endif %}
                             {% endfor %}
 
                         </tr>

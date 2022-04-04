@@ -27,7 +27,7 @@ class DataUpload(models.Model):
     subject = models.CharField(max_length=100, null=True, blank=True)
     subject_code = models.CharField(max_length=100, null=True, blank=True)
     paper = models.FileField(upload_to='paper', null=True, blank=True)
-    status = models.BooleanField(default=False)
+    status = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.subject)

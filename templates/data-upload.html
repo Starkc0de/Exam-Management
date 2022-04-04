@@ -64,9 +64,15 @@
                             <label>Upload file</label>
                             <input class="form-control" value="{{instance.paper.url}}" accept="application/pdf" name="paper" type="file" />
                         </div>
+                        {% if instance.paper %}
                         <div class="col-md-12">
                             <td> Exam Pdf :- <a href="{{instance.paper.url}}" name="filepath" > {{instance.paper}}</a> </td>
                         </div>
+                        {% else %}
+                        <div class="col-md-12">
+                            <td><a href="{{instance.paper.url}}" name="filepath" ></a> </td>
+                        </div>
+                        {% endif %}
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary mx-auto">Submit</button>
                         </div>

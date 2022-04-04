@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+
+from user.models import User
 from .models import FeedBack
 from django.contrib import messages
 from data_upload.models import DataUpload
@@ -22,29 +24,22 @@ class PaperView(LoginRequiredMixin,generic.TemplateView):
 class FeedBackView(LoginRequiredMixin,generic.TemplateView):
     template_name = "feedback.html"  
 
-    def post(self,request, *args, **kwargs): 
-        comment= request.POST.get('comment')
-        return_feedback= request.POST.get('return_feedback')
-        status= request.POST.get('status')
-        feedback_by= request.POST.get('feedback_by')
-        form = FeedBack(comment=comment, return_feedback = return_feedback, status=status, feedback_by = feedback_by,) 
+    def post(self,request,id, *args, **kwargs): 
+        comment = request.POST.get('comment')
+        return_feedback = request.POST.get('return_feedback')
+        status = request.POST.get('status')
+        paper_data = DataUpload.objects.get(id=id)
+        form = FeedBack(comment = comment, return_feedback = return_feedback, feedback_by = request.user, paper_data=paper_data) 
         form.save()
+        paper_data.status=status
+        paper_data.save()
         messages.info(request, 'Your Feedback Send to Student.')
         return HttpResponseRedirect(reverse('View-Paper:paper'))
-        # if request.POST.get('Approved'):
-        #     form.status = "Approved"
-        #     print("gvhjbkl;kjhkljhklhkh")
-        # elif request.POST.get('Rejected'):
-        #     form.status = "Rejected"
-        #     form.save()
-        #     return render(request, "feedback.html")  
-        # if form.is_valid():
-        #     instance = form.save(commit=False)
-        #     instance.user = request.user
-        #     instance.save()  
-        #     messages.info(request, 'Your Feedback Send to Student.')
-        #     return HttpResponseRedirect(reverse('Dashboard:dashboard'))
-        # else:
-        #     messages.info(request, 'Your Feedback has not Send Student ! Please Checked')
-        #     form = FeedBackForm()
-        # return render(request, "feedback.html")      
+
+
+
+
+
+
+
+

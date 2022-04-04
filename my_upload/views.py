@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class MyUploadView(generic.TemplateView):
     template_name = "my-upload.html"  
 
-    def get(self, request):
+    def get(self, request,*args, **kwargs):
         dataupload = DataUpload.objects.all()
         return render(request,  "my-upload.html",{'dataupload':dataupload}) 
 

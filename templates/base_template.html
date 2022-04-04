@@ -91,7 +91,7 @@
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="{% static 'img/profile-img.jpg' %}" alt="Profile" class="rounded-circle" />
-                        <span class="d-none d-md-block dropdown-toggle ps-2">{{user.fullname}}</span> </a>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{user.role}}</span> </a>
                     <!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -158,7 +158,7 @@
             </li>
             <!-- End Profile Page Nav -->
             {% if request.user.is_authenticated %}
-            {% if request.user.role == "SETTER": %}
+            {% if request.user.role.name == "SETTER" %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'My-Upload:myupload' %}">
                     <i class="bi bi-cloud-upload"></i>
@@ -166,15 +166,29 @@
                 </a>
             </li>
             <!-- End F.A.Q Page Nav -->
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'Rejected-Upload:rejectedupload' %}">
                     <i class="bi bi-upload"></i>
                     <span>Rejected uploads</span>
                 </a>
             </li>
-            {% elif request.user.role == "HOD" %} 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'My-Account:myaccount' %}">
+                    <i class="bi bi-person"></i>
+                    <span>My Account</span>
+                </a>
+            </li>
+            {% endif %}
+            {% endif %}
             <!-- End Contact Page Nav -->
+            {% if request.user.is_authenticated %}
+            {% if request.user.role.name == "HOD" %}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'Send-Notification:sendnotification' %}">
+                    <i class="bi bi-card-list"></i>
+                    <span>Send Notification</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'View-Paper:paper' %}">
                     <i class="bi bi-card-list"></i>
@@ -182,18 +196,35 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'My-Account:myaccount' %}">
+                    <i class="bi bi-person"></i>
+                    <span>My Account</span>
+                </a>
+            </li>
+            {% endif %}
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            {% if request.user.role.name == "HOI" %}
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'Send-Notification:sendnotification' %}">
                     <i class="bi bi-card-list"></i>
                     <span>Send Notification</span>
                 </a>
             </li>
-            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'View-Paper:paper' %}">
+                    <i class="bi bi-card-list"></i>
+                    <span>View Paper</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'My-Account:myaccount' %}">
                     <i class="bi bi-person"></i>
                     <span>My Account</span>
                 </a>
             </li>
+            {% endif %}
+            {% endif %}
         </ul>
     </aside>
     <!-- End Sidebar-->
@@ -252,6 +283,7 @@
                 });
             });
     </Script>
+    <!-- *******************************User Edit***************************  -->
     <script>
         $(document).on("click", ".edit_profile", function () {
           $('.page-loader').show();
