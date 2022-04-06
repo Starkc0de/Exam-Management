@@ -2,6 +2,7 @@ from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
+from data_upload.models import Course, Semester
 from utils.BaseModel import DateMixin 
 # Create your models here.
 
@@ -50,11 +51,12 @@ class User(AbstractBaseUser, PermissionsMixin,DateMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     role= models.ForeignKey(Role,related_name='role',on_delete=models.CASCADE,null=True, blank=True)
-        
     mobile_no = models.BigIntegerField(unique=True,null=True, blank=True)  # User contact no.
     otp = models.IntegerField(null=True, blank=True)   # email verification otp
     address = models.TextField(null=True, blank=True)
     is_terms_conditions = models.BooleanField(default=False) # Accepted terms and conditions or not
+    course = models.OneToOneField(Course, on_delete=models.CASCADE,null=True, blank=True)    
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE,null=True, blank=True)    
     
     USERNAME_FIELD = 'email'
 

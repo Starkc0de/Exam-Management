@@ -6,7 +6,7 @@ from datetime import datetime
 # Create your models here.
 
 class SendNotification(models.Model):
-    send_notification_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    send_notification_by = models.ManyToManyField(User, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True)
     message = models.TextField(null=True, blank=True)
 

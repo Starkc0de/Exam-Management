@@ -1,9 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from data_upload.models import DataUpload
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -14,11 +15,11 @@ class MyUploadView(generic.TemplateView):
         dataupload = DataUpload.objects.all()
         return render(request,  "my-upload.html",{'dataupload':dataupload}) 
 
-
-class DeleteDataView(LoginRequiredMixin,generic.TemplateView):
+@method_decorator(login_required(login_url=''), name="dispatch")
+class DeleteDataView(generic.TemplateView):
     template_name = "my-upload.html" 
 
     def post(self, request, id,):
         DataUpload.objects.filter(id=id).delete()
-        return render(request, "my-upload.html" )      
+        return HttpResponseRedirect(reverse('My-Upload:myupload') )      
    

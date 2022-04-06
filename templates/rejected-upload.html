@@ -28,12 +28,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-
-                            <th>course</th>
-                            <th>semester</th>
-                            <th>subject</th>
-                            <th>subjectcode</th>
-                            <th>status</th>
+                            <th>Course</th>
+                            <th>Semester</th>
+                            <th>Subject</th>
+                            <th>Subjectcode</th>
+                            <th>Paper</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -47,6 +47,7 @@
                                 <td>{{data.semester}}</td>
                                 <td>{{data.subject}}</td>
                                 <td>{{data.subject_code}}</td>
+                                <td><a href="{{data.paper.url}}"> {{data.paper}}</a></td>
                                 <td><span data-="" class="badge bg-danger">{{data.status}}</span></td>
                                 <td>
                                     <a href="{% url 'Data-Upload:data-update' data.id %}" class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i class="bi bi-pencil"></i></a>

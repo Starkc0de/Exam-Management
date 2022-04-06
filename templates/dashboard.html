@@ -74,8 +74,10 @@
                                 <h5 class="card-title">Rejected Uploads </h5>
                                 <div class="d-flex align-items-center">
                                     <div class="ps-3">
-                                        <h6>1244</h6>
-                                        <span class="text-success small pt-1 fw-bold">Total</span> <span class="text-muted small pt-2 ps-1">Rejected Uploads</span>
+                                   
+                                        <h6>{{ status }}</h6>
+                                                                         
+                                    <span class="text-success small pt-1 fw-bold">Total</span> <span class="text-muted small pt-2 ps-1">Rejected Uploads</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,11 +93,11 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>course</th>
-                                            <th>semester</th>
-                                            <th>subject</th>
-                                            <th>subjectcode</th>
-                                            <th>status</th>
+                                            <th>Course</th>
+                                            <th>Semester</th>
+                                            <th>Subject</th>
+                                            <th>Subjectcode</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,7 +107,11 @@
                                             <td>{{data.semester}}</td>
                                             <td>{{data.subject}}</td>
                                             <td>{{data.subject_code}}</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {% if data.status == "Approved" %}
+                                            <td><span data-="" class="badge bg-success">{{data.status}}</span></td>
+                                            {% else %}
+                                            <td><span data-="" class="badge bg-danger">{{data.status}}</span></td>
+                                            {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>

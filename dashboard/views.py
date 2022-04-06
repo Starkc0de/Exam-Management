@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import render
 from django.views import generic
 from data_upload.models import DataUpload,Course, Semester
@@ -16,6 +17,7 @@ class DashboardView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['dataupload'] = DataUpload.objects.all()
+        context['status'] = DataUpload.objects.values('status').annotate(count=Count('status', distinct=True))
         context['course'] = Course.objects.count()
         context['semester'] = Semester.objects.count()
         context['total_upload'] = DataUpload.objects.count()                 
@@ -25,7 +27,7 @@ class DashboardView(generic.TemplateView):
 
 @register.filter(name='get_notification')
 def get_notification(notification):
-        get_data = SendNotification.objects.all()[:4]
+        get_data = SendNotification.objects.all().order_by('-id')[:4]
         return render_to_string("notification.html", {"get_data": get_data})
 
 
