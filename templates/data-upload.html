@@ -31,25 +31,29 @@
                         <div class="col-md-6">
                             <label>Course</label>
                             <select class="form-select" name="course" aria-label="Default select example">
+                                {% if course_list %}
                                 {% for data in course_list %}
-                                {% if data == instance.course_name %}
-                                <option value="{{instance.course_name}}" selected>{{instance.course_name}}</option>
+                                {% if data.id == instance.course_name.id %}
+                                <option value="{{instance.course_name.id}}" selected>{{instance.course_name.id.course_name}}</option>
                                 {% else %}
                                 <option value="{{data.id}}" selected>{{data.course_name}}</option>
                                 {% endif %}
                                 {% endfor  %}
+                                {% endif %}
                               </select>
                         </div>
                         <div class="col-md-6">
                             <label>Semester</label>
                             <select class="form-select" name="semester" aria-label="Default select example">
+                                {% if sem %}
                                 {% for data in sem %}
-                                {% if data == instance.semester_name %}
-                                <option  value="{{instance.semester_name}}" selected>{{instance.semester_name}}</option>
+                                {% if data.id == instance.semester_name.id %}
+                                <option  value="{{instance.semester_name.id}}" selected>{{instance.semester_name.id.semester_name}}</option>
                                 {% else %}
                                 <option value="{{data.id}}" selected>{{data.semester_name}}</option>
                                 {% endif %}
                                 {% endfor  %}
+                                {% endif %}
                               </select>
                         </div>
                         <div class="col-md-6">

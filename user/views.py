@@ -34,7 +34,7 @@ class LoginView(generic.TemplateView):
         else:
             messages.error(request, "Invalid username or password.")
         form = User()
-        return render(request, "user/login.html" , {'form': form})    
+        return HttpResponseRedirect(reverse('Dashboard:dashboard'))     
 
 
 class RegisterView(generic.TemplateView):

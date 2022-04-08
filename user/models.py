@@ -55,8 +55,8 @@ class User(AbstractBaseUser, PermissionsMixin,DateMixin):
     otp = models.IntegerField(null=True, blank=True)   # email verification otp
     address = models.TextField(null=True, blank=True)
     is_terms_conditions = models.BooleanField(default=False) # Accepted terms and conditions or not
-    course = models.OneToOneField(Course, on_delete=models.CASCADE,null=True, blank=True)    
-    semester = models.OneToOneField(Semester, on_delete=models.CASCADE,null=True, blank=True)    
+    course = models.ManyToManyField(Course, blank=True)    
+    semester = models.ManyToManyField(Semester, blank=True)    
     
     USERNAME_FIELD = 'email'
 

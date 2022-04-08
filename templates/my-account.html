@@ -81,7 +81,7 @@
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <!-- Profile Edit Form -->
-                                <form method="POST" action="my-account/edit-user/{{instance.id}}">
+                                <form method="POST">
                                     {% csrf_token %}
                                     <div class="row mb-3">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
@@ -94,30 +94,32 @@
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="fullName"
-                                                value="{{instance.fullname}}" />
+                                            <input name="fullname" type="text" class="form-control" id="fullName"
+                                                value="{{user.fullname|default:''}}" />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="Job" class="col-md-4 col-lg-3 col-form-label">Role</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="role" type="text" class="form-control" id="role"
-                                                value="{{instance.role}}" />
+                                        <select class="col-md-8 col-lg-9 form-control" name="role" required>
+                                            {% for data in roles %}
+                                        <option value="{{data.id}}" >{{data.name}}</option>
+                                            {% endfor  %} 
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="address" type="text" class="form-control" id="Address"
-                                                value="{{instance.address}}" />
+                                                value="{{user.address}}" />
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone"
-                                                value="{{instance.mobile_no}}" />
+                                            <input name="mobile_no" type="text" class="form-control" id="Phone"
+                                                value="{{user.mobile_no}}" />
                                         </div>
                                     </div>
 
@@ -125,7 +127,7 @@
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="email" type="email" class="form-control" id="Email"
-                                                value="{{instance.email}}" />
+                                                value="{{user.email}}" />
                                         </div>
                                     </div>
                                     <div class="text-center">

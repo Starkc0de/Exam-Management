@@ -4,6 +4,5 @@ from . import views
 urlpatterns = [
 
     path('/', views.MyAccountView.as_view(), name="myaccount"),
-    path('edit-user/<int:id>', views.EditUser.as_view(), name="edit_user")
 
 ]

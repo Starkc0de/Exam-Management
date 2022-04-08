@@ -7,11 +7,13 @@ from data_upload.forms import DataUploadForm
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from send_notification.models import SendNotification
 
 # Create your views here.
 
-class DataUploadView(generic.TemplateView):
+@method_decorator(login_required(login_url=''), name="dispatch")
+class DataUploadView(LoginRequiredMixin,generic.TemplateView):
     template_name = "data-upload.html" 
 
     def get(self, request):
@@ -26,7 +28,7 @@ class DataUploadView(generic.TemplateView):
                 instance = form.save(commit=False)
                 instance.user = request.user
                 instance.save()  
-                title = 'new ' + instance.subject +' paper uploaded by '+ request.user.fullname
+                title = 'New ' + instance.subject +' Paper Uploaded By '+ request.user.fullname
                 message="Please Check Your Paper"
                 notification=SendNotification.objects.create(title=title,message=message)
                 notification.send_notification_by.add()
@@ -39,7 +41,7 @@ class DataUploadView(generic.TemplateView):
             return render(request, "data-upload.html")  
 
 @method_decorator(login_required(login_url=''), name="dispatch")
-class EditDataView(generic.TemplateView):
+class EditDataView(LoginRequiredMixin,generic.TemplateView):
     template_name = "data-upload.html" 
     form = DataUploadForm
 
