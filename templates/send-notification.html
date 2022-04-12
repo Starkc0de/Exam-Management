@@ -1,15 +1,13 @@
-{% extends 'base_template.html' %}
-{% block content %}
-{% load static %}
-
+{% extends 'base_template.html' %} {% block content %} {% load static %}
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>Send notification</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'Dashboard:dashboard' %}">Home</a>
+                </li>
                 <li class="breadcrumb-item active">Send notification</li>
             </ol>
         </nav>
@@ -17,9 +15,11 @@
     <!-- End Page Title -->
     {% if messages %}
     <ul class="messages">
-      {% for message in messages %}
-      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
-      {% endfor %}
+        {% for message in messages %}
+        <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}>
+            {{ message }}
+        </li>
+        {% endfor %}
     </ul>
     {% endif %}
 
@@ -43,17 +43,29 @@
                             <p class="text-danger">{{ error|escape }}</p>
                             {% endfor %}
                         </div>
+                        <div class="col-12">
+                            <label class="mb-2">Role</label>
+                            <select class="form-select" name="send_notification_by" required>
+                                {% for data in roles %}
+                                <option value="{{data.id}}">{{data.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- <div class="col-12">
+                            <label class="mb-2">User</label>
+                                <select class="form-select " id="example-getting-started" multiple="multiple">
+                                {% for data in user %}
+                                <option value="{{data.id}}">{{data.fullname}}</option>
+                                {% endfor %}
+                        </div> -->
                         <div class="col-12 text-end">
                             <button type="submit" class="btn btn-primary">Send</button>
                         </div>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </section>
-
 </main>
 <!-- End #main -->
 {% endblock %}

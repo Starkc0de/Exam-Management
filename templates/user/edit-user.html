@@ -1,0 +1,60 @@
+{% extends 'base_template.html' %} {% block content %} {% load static %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>User Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">User Profile</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <section class="section dashboard">
+        <div class="card">
+            <div class="card-body p-5">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label>Full Name</label>
+                            <input class="form-control" value="{{user.fullname}}" name="fullname" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <input class="form-control" value="{{user.email}}" name="email" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Role</label>
+                            <input class="form-control" value="{{user.role}}" name="role" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Mobile Number</label>
+                            <input class="form-control" value="{{user.mobile_no}}" name="mobile_no" type="text" />
+                        </div>
+                        <div class="col-md-12">
+                            <label>Address</label>
+                            <input class="form-control" value="{{user.address}}" name="address"  type="text" />
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary mx-auto">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+{% endblock %}

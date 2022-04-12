@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from user.models import Role ,User
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -91,7 +94,6 @@ class OTPVerify(generic.TemplateView):
             messages.error(request, 'Entered otp is wrong ,please enter again')
             return render(request, "user/otp-verification.html")
 
-
 class PasswordOtpSendView(generic.TemplateView):
     template_name = "user/otp-send.html"
 
@@ -118,7 +120,6 @@ class PasswordOtpSendView(generic.TemplateView):
         else:
             messages.error(request, "This email not registered or not active")
             return HttpResponseRedirect(reverse('user_info:otp-send'))
-
 
 class PasswordOTPVerifyView(generic.TemplateView):
     template_name = "user/otp-verification.html"
@@ -153,3 +154,32 @@ def LogoutView(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return HttpResponseRedirect(reverse('user_info:login'))
+
+@method_decorator(login_required(login_url='/'), name="dispatch")
+class UserProfile(LoginRequiredMixin,generic.TemplateView):
+    template_name = "user/user.html"
+
+    def get(self,request, *args, **kwargs):
+        user = User.objects.all()
+        return render(request,self.template_name, {'user':user})   
+
+
+@method_decorator(login_required(login_url='/'), name="dispatch")
+class EditUserView(LoginRequiredMixin,generic.TemplateView):
+    template_name = "user/edit-user.html" 
+
+    def get(self,request,id, *args, **kwargs) :
+        user=get_object_or_404(User, id=id)
+        roles=Role.objects.all()
+        return render(request,self.template_name,{"user":user,"roles":roles})  
+
+    def post(self, request, *args, **kwargs):
+        name= request.POST.get('fullname')
+        email= request.POST.get('email')
+        role_id= request.POST.get('role')
+        mobile_no= request.POST.get('mobile_no')
+        address= request.POST.get('address')
+        role=Role.objects.get(id=role_id)
+        User.objects.filter(id=request.user.id).update(name=name, email = email, role=role, mobile_no = mobile_no, address = address, is_terms_conditions = True)         
+        
+        return render(request,self.template_name)

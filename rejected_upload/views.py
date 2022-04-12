@@ -8,12 +8,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
-@method_decorator(login_required(login_url=''), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class RejectedUploadView(LoginRequiredMixin,generic.TemplateView):
     template_name = "rejected-upload.html"
 
     def get(self, request,*args, **kwargs):
-        dataupload = DataUpload.objects.all()
+        dataupload = DataUpload.objects.all().order_by('-id')
         
         p = Paginator(dataupload, 8)  
         page_number = self.request.GET.get('page')

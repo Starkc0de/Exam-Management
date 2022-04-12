@@ -12,7 +12,7 @@ from send_notification.models import SendNotification
 
 # Create your views here.
 
-@method_decorator(login_required(login_url=''), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class DataUploadView(LoginRequiredMixin,generic.TemplateView):
     template_name = "data-upload.html" 
 
@@ -40,7 +40,7 @@ class DataUploadView(LoginRequiredMixin,generic.TemplateView):
                 form = DataUploadForm()
             return render(request, "data-upload.html")  
 
-@method_decorator(login_required(login_url=''), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class EditDataView(LoginRequiredMixin,generic.TemplateView):
     template_name = "data-upload.html" 
     form = DataUploadForm

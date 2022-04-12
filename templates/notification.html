@@ -1,4 +1,4 @@
-<a class="nav-link nav-icon" href="#" onclick="removeNumber()" notification_status="True" data-bs-toggle="dropdown">
+<a class="nav-link nav-icon" href="#" onclick="removeNumber()" data-bs-toggle="dropdown">
   <i class="bi bi-bell"></i>
   <span class="badge bg-primary badge-number">{{count_data}}</span>
 </a>
@@ -9,7 +9,7 @@
   <div>
     <h4>{{data.title}}</h4>
     <p>{{data.message}}</p>
-    <p>{{data.send_date}}</p>
+    <p>{{data.send_notification_by}}</p>
   </div>
 </li>
 {% endfor %}

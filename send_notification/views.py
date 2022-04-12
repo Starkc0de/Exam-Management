@@ -4,16 +4,23 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
 from send_notification.models import SendNotification
+from user.models import Role, User
 from .forms import SendNotificationForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
-@method_decorator(login_required(login_url=''), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class SendNotificationView(LoginRequiredMixin,generic.TemplateView):
     template_name = "send-notification.html"  
+
+    def get(self, request):
+        roles=Role.objects.all()
+        user = User.objects.all()
+        return render(request,  "send-notification.html",{'roles':roles,'user':user})
 
     def post(self,request,*args, **kwargs):
         form = SendNotificationForm(request.POST)
@@ -29,7 +36,7 @@ class SendNotificationView(LoginRequiredMixin,generic.TemplateView):
             return render(request, "send-notification.html")
 
 
-@method_decorator(login_required(login_url='/account/login'), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class NotificationStatus(LoginRequiredMixin,generic.TemplateView):
     template_name = "send-notification.html"
 
@@ -38,4 +45,24 @@ class NotificationStatus(LoginRequiredMixin,generic.TemplateView):
         notification.notification_status = True
         notification.save()
         SendNotification.objects.filter(id=id).update(notification_status=True)
-        return JsonResponse({'message': 'Status Changed successfully.'})
+        messages.info(request, 'Status Changed successfully.')
+        return render(request, "send-notification.html",{'notification':notification})
+        # return JsonResponse({'message': 'Status Changed successfully.'})
+
+@method_decorator(login_required(login_url='/'), name="dispatch")
+class AllNotificationView(LoginRequiredMixin,generic.TemplateView):
+    template_name = "all-notification.html"         
+
+    def get(self, request):
+        notification=SendNotification.objects.all().order_by('-id')
+
+        p = Paginator(notification, 8)  
+        page_number = self.request.GET.get('page')
+        try:
+            page_obj = p.get_page(page_number) 
+        except PageNotAnInteger:
+            page_obj = p.page()
+        except EmptyPage:
+            page_obj = p.page(p.num_pages)
+
+        return render(request, "all-notification.html",{'notification':notification, 'page_obj':page_obj})

@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for data in dataupload %}
+                        {% for data in page_obj %}
                         <tr>
                             <td>{{data.course}}</td>
                             <td>{{data.semester}}</td>
@@ -51,7 +51,32 @@
                     </tbody>
                 </table>
                 <div class="text-end">
-                    <a href="#" class="btn btn-primary">View All</a>
+                    <nav aria-label="Page navigation " class="supplier-pagination">
+                        {% if page_obj.has_other_pages %}
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                            </li>
+                            {% else %}
+                            <li class="active"><span>Previous</span></li>
+                            {% endif %} {% for i in page_obj.paginator.page_range %} {% if page_obj.number == i %}
+        
+                            <li class="active">
+                                <span class="page-item">{{ i }} <span class="sr-only"></span></span>
+                            </li>
+                            {% else %}
+                            <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %} {% endfor %} {% if page_obj.has_next %}
+                            <li>
+                                <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
+                            </li>
+                            {% else %}
+                            <li class="disabled"><span>Next</span></li>
+                            {% endif %}
+                        </ul>
+                        {% endif %}
+                    </nav>
                 </div>
             </div>
         </div>

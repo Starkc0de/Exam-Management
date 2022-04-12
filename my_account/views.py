@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@method_decorator(login_required(login_url=''), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class MyAccountView(LoginRequiredMixin,generic.TemplateView):
     template_name = "my-account.html"  
 

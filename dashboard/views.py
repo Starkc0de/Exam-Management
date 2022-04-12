@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 class HomeView(generic.TemplateView):
     template_name = "base_template.html"
 
-@method_decorator(login_required(login_url=''), name="dispatch")
+@method_decorator(login_required(login_url='/'), name="dispatch")
 class DashboardView(LoginRequiredMixin,generic.TemplateView):
     template_name = "dashboard.html"
 

@@ -59,8 +59,13 @@
                                 </div>
 
                                 <div class="row">
+                                    {% if request.user.is_superuser  %}
+                                    <div class="col-lg-3 col-md-4 label">Role</div>
+                                    <div class="col-lg-9 col-md-8">Admin</div>
+                                    {% else %}
                                     <div class="col-lg-3 col-md-4 label">Role</div>
                                     <div class="col-lg-9 col-md-8">{{user.role}}</div>
+                                    {% endif %}
                                 </div>
 
                                 <div class="row">
@@ -99,6 +104,12 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
+                                        {% if request.user.is_superuser  %}
+                                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Role</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <label for="Job" class="col-md-4 col-lg-3 col-form-label">Admin</label>
+                                        </div>
+                                        {% else %}
                                         <label for="Job" class="col-md-4 col-lg-3 col-form-label">Role</label>
                                         <div class="col-md-8 col-lg-9">
                                         <select class="col-md-8 col-lg-9 form-control" name="role" required>
@@ -106,6 +117,7 @@
                                         <option value="{{data.id}}" >{{data.name}}</option>
                                             {% endfor  %} 
                                         </div>
+                                        {% endif %}
                                     </div>
                                     <div class="row mb-3">
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>

@@ -31,6 +31,7 @@
 
     <!-- Template Main CSS File -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap-multiselect.css' %}" rel="stylesheet" />
 </head>
 
 <body>
@@ -61,8 +62,13 @@
                 </li>
 
                 <li class="nav-item dropdown">
+                    {% if request.user.is_authenticated %}
+                    {% if request.user.role.name == "HOD" %}
 
                     {{'footer_services'|count_notification}}
+        
+                    {% endif %}
+                    {% endif %}
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
@@ -84,7 +90,7 @@
                             <hr class="dropdown-divider" />
                         </li>
                         <li class="dropdown-footer">
-                            <a href="#">Show all notifications</a>
+                            <a href="{% url 'Send-Notification:notificationstatus' %}">Show all notifications</a>
                         </li>
                     </ul>
                     <!-- End Notification Dropdown Items -->
@@ -94,7 +100,11 @@
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="{% static 'img/profile-img.jpg' %}" alt="Profile" class="rounded-circle" />
-                        <span class="d-none d-md-block dropdown-toggle ps-2">{{user.role}}</span> </a>
+                        {% if request.user.is_superuser  %}
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span> </a>
+                        {% else %}
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{user.fullname}}</span> </a>
+                        {% endif %}
                     <!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -145,6 +155,62 @@
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
+            {% if request.user.is_superuser  %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Dashboard:dashboard' %}">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'user_info:user-profile' %}">
+                    <i class="bi bi-person"></i>
+                    <span>User Profile</span>
+                </a>
+            </li>
+            <!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'Data-Upload:dataupload' %}">
+                    <i class="bi bi-cloud-upload"></i>
+                    <span>Data Upload</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'My-Upload:myupload' %}">
+                    <i class="bi bi-cloud-upload"></i>
+                    <span>My uploads</span>
+                </a>
+            </li>
+            <!-- End F.A.Q Page Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'Rejected-Upload:rejectedupload' %}">
+                    <i class="bi bi-upload"></i>
+                    <span>Rejected uploads</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'Send-Notification:sendnotification' %}">
+                    <i class="bi bi-card-list"></i>
+                    <span>Send Notification</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'View-Paper:paper' %}">
+                    <i class="bi bi-card-list"></i>
+                    <span>View Paper</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'My-Account:myaccount' %}">
+                    <i class="bi bi-person"></i>
+                    <span>My Account</span>
+                </a>
+            </li>
+            {% endif %}
+            <!-- End Profile Page Nav -->
+            {% if request.user.is_authenticated %}
+            {% if request.user.role.name == "SETTER" %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'Dashboard:dashboard' %}">
                     <i class="bi bi-grid"></i>
@@ -159,9 +225,6 @@
                     <span>Data Upload</span>
                 </a>
             </li>
-            <!-- End Profile Page Nav -->
-            {% if request.user.is_authenticated %}
-            {% if request.user.role.name == "SETTER" %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'My-Upload:myupload' %}">
                     <i class="bi bi-cloud-upload"></i>
@@ -187,6 +250,20 @@
             {% if request.user.is_authenticated %}
             {% if request.user.role.name == "HOD" %}
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'Dashboard:dashboard' %}">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'Data-Upload:dataupload' %}">
+                    <i class="bi bi-cloud-upload"></i>
+                    <span>Data Upload</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'Send-Notification:sendnotification' %}">
                     <i class="bi bi-card-list"></i>
                     <span>Send Notification</span>
@@ -208,6 +285,20 @@
             {% endif %}
             {% if request.user.is_authenticated %}
             {% if request.user.role.name == "HOI" %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Dashboard:dashboard' %}">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'Data-Upload:dataupload' %}">
+                    <i class="bi bi-cloud-upload"></i>
+                    <span>Data Upload</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'Send-Notification:sendnotification' %}">
                     <i class="bi bi-card-list"></i>
@@ -239,18 +330,14 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-
     <!-- Vendor JS Files -->
-    <script src="{% static 'js/main.js' %}"></script>
-
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/bootstrap-multiselect.js' %}"></script>   
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Template Main JS File -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 
     <!-- *******************************Delete Script***************************  -->
     <Script>
@@ -293,6 +380,17 @@
             document.getElementsByClassName('badge')[0].innerHTML = '';
 
           }
+    </script>
+   
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#example-getting-started').multiselect({
+                enableClickableOptGroups: true,
+                includeSelectAllOption:true,
+                nonSelectedText: 'Users',
+                search: true,
+            });
+        });
     </script>
 </body>
 

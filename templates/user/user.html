@@ -1,0 +1,91 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>My Upload</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">User</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <section class="section dashboard">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Addresh</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in user %}
+                        <tr>
+                            <td>{{data.fullname}}</td>
+                            <td>{{data.role}}</td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.mobile_no}}</td>
+                            <td>{{data.address}}</td>
+                            <td>
+                                <a href="{% url 'user_info:user-profile' data.id %}"
+                                    class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i
+                                        class="bi bi-pencil"></i></a>
+                                <a href="javascript:void(0)" class="d-inline-block btn btn-danger delete"
+                                    data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Page navigation " class="supplier-pagination">
+                {% if page_obj.has_other_pages %}
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="active"><span>Previous</span></li>
+                    {% endif %} {% for i in page_obj.paginator.page_range %} {% if page_obj.number == i %}
+
+                    <li class="active">
+                        <span class="page-item">{{ i }} <span class="sr-only"></span></span>
+                    </li>
+                    {% else %}
+                    <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %} {% endfor %} {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled"><span>Next</span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </nav>
+        </div>
+        </div>
+        </div>
+    </section>
+</main>
+<!-- End #main -->
+
+{% endblock %}
