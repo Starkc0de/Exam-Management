@@ -7,9 +7,9 @@
 <li class="notification-item">
   <i class="bi bi-exclamation-circle text-warning"></i>
   <div>
-    <h4>{{data.title}}</h4>
+    <a href="{% url 'Send-Notification:allnotification' %}"><h4>{{data.title}}</h4></a>
     <p>{{data.message}}</p>
-    <p>{{data.send_notification_by}}</p>
+    <p>{{data.status}}</p>
   </div>
 </li>
 {% endfor %}

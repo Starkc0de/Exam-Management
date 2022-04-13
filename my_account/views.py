@@ -12,9 +12,9 @@ class MyAccountView(LoginRequiredMixin,generic.TemplateView):
     template_name = "my-account.html"  
 
     def get(self,request) :
-            user=User.objects.get(id=self.request.user.id)
-            roles=Role.objects.all()
-            return render(request,self.template_name,{"user":user,"roles":roles})  
+        user=User.objects.get(id=self.request.user.id)
+        roles=Role.objects.all()
+        return render(request,self.template_name,{"user":user,"roles":roles})  
 
     def post(self, request, *args, **kwargs):
         name= request.POST.get('fullname')

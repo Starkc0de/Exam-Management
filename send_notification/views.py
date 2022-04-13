@@ -42,11 +42,14 @@ class NotificationStatus(LoginRequiredMixin,generic.TemplateView):
 
     def post(self,id, request, *args, **kwargs):
         notification = SendNotification.objects.get(id=id)
-        notification.notification_status = True
-        notification.save()
+        if notification.notification_status == True:
+            notification.save()
+        else:
+            notification.notification_status == False
+            notification.save()        
         SendNotification.objects.filter(id=id).update(notification_status=True)
         messages.info(request, 'Status Changed successfully.')
-        return render(request, "send-notification.html",{'notification':notification})
+        return HttpResponseRedirect(reverse('Send-Notification:sendnotification',{'notification':notification})) 
         # return JsonResponse({'message': 'Status Changed successfully.'})
 
 @method_decorator(login_required(login_url='/'), name="dispatch")

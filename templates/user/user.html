@@ -32,6 +32,7 @@
                             <th>Mobile</th>
                             <th>Addresh</th>
                             <th>Action</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,8 +43,9 @@
                             <td>{{data.email}}</td>
                             <td>{{data.mobile_no}}</td>
                             <td>{{data.address}}</td>
+                            <td>{{data.status}}</td>
                             <td>
-                                <a href="{% url 'user_info:user-profile' data.id %}"
+                                <a href="{% url 'user_info:edit-profile' data.id %}"
                                     class="d-inline-block btn btn-primary me-2" data-id="{{data.id}}"><i
                                         class="bi bi-pencil"></i></a>
                                 <a href="javascript:void(0)" class="d-inline-block btn btn-danger delete"

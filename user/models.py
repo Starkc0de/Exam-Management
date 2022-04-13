@@ -57,6 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin,DateMixin):
     is_terms_conditions = models.BooleanField(default=False) # Accepted terms and conditions or not
     course = models.ManyToManyField(Course, blank=True)    
     semester = models.ManyToManyField(Semester, blank=True)    
+    status = models.BooleanField(default=True)    
     
     USERNAME_FIELD = 'email'
 

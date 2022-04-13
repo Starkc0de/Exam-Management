@@ -36,7 +36,11 @@
                         </div>
                         <div class="col-md-6">
                             <label>Role</label>
-                            <input class="form-control" value="{{user.role}}" name="role" type="text" />
+                            <select class="form-select" name="role" required>
+                                {% for data in roles %}
+                                <option value="{{data.id}}">{{data.name}}</option>
+                                {% endfor  %}                                             
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label>Mobile Number</label>
@@ -45,6 +49,13 @@
                         <div class="col-md-12">
                             <label>Address</label>
                             <input class="form-control" value="{{user.address}}" name="address"  type="text" />
+                        </div>
+                        <div class="col-md-12">
+                            <label>Status</label>
+                            <select class="form-select" name="status" required>
+                                <option value="0">Approved</option>
+                                <option value="1">Rejected</option>
+                            </select>
                         </div>
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary mx-auto">Submit</button>
