@@ -61,8 +61,10 @@ class RegisterView(generic.TemplateView):
             otp+=str(r.randint(1,9))
         if User.objects.filter(mobile_no=mobile_no).exists():
             messages.info(request, 'Mobile Number Already taken')
+            return HttpResponseRedirect(reverse('user_info:register'))
         elif User.objects.filter(email=email).exists():
             messages.info(request, 'Email Already taken') 
+            return HttpResponseRedirect(reverse('user_info:register'))
         user = User(fullname=name, email = email, role=role, mobile_no = mobile_no, address = address, is_terms_conditions = True)         
         user.set_password(password)
         user.otp = otp
